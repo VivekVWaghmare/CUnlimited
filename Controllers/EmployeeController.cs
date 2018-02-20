@@ -22,21 +22,21 @@ namespace CUnlimited.Controllers
   
         [HttpPost]  
         [Route("api/Employee/Create")]  
-        public int Create([FromBody] Employee employee)  
+        public int Create([FromBody] EmployeeDetails employee)  
         {  
             return objemployee.AddEmployee(employee);  
         }  
   
         [HttpGet]  
         [Route("api/Employee/Details/{id}")]  
-        public Employee Details(int id)  
+        public EmployeeDetails Details(int id)  
         {  
             return objemployee.GetEmployeeData(id);  
         }  
   
         [HttpPut]  
         [Route("api/Employee/Edit")]  
-        public int Edit([FromBody]Employee employee)  
+        public int Edit([FromBody]EmployeeDetails employee)  
         {  
             return objemployee.UpdateEmployee(employee);  
         }  

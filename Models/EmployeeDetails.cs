@@ -14,6 +14,7 @@ namespace CUnlimited.Model
         public string GenderName { get; set; }  
         public int DepartmentId { get; set; } 
         public string Department { get; set; }  
+        public double PhoneNo { get; set; }
   
         public string City { get; set; }  
     }  

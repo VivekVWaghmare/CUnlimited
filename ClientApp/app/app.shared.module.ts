@@ -39,10 +39,11 @@ import { SalaryComponent } from './components/salary/salary.component';
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
-            {path: 'add-employee', component: AddEmployeeComponent},
-            {path: 'employee-attendance', component: EmpTodayAttendanceComponent},
-            {path: 'godown', component: GodownComponent},
-            {path: 'salary', component: SalaryComponent},
+            { path: 'add-employee', component: AddEmployeeComponent}, 
+            { path: 'employee/edit/:id', component: AddEmployeeComponent },  
+            { path: 'employee-attendance', component: EmpTodayAttendanceComponent},
+            { path: 'godown', component: GodownComponent},
+            { path: 'salary', component: SalaryComponent},
             { path: '**', redirectTo: 'home' }
         ])
     ],

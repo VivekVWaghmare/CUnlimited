@@ -1,38 +1,59 @@
-    <h1>{{title}}</h1>  
-    <h3>Employee</h3>  
+    <h3>{{title}} Employee</h3>  
     <hr />  
-    <form>  
-  
+    <form [formGroup]="employeeForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>  
         <div class="form-group row">  
-            <label class="control-label col-md-12" for="Name">Name</label>  
+            <label class="control-label col-md-12" for="FirstName">First Name</label>  
             <div class="col-md-4">  
-                <input class="form-control" type="text" >  
+                <input class="form-control" type="text" formControlName="firstName">  
             </div>  
-            
+            <span class="text-danger" *ngIf="employeeForm.hasError('required', 'firstName') && formDir.submitted">  
+                Name is required.  
+            </span>
         </div>  
+        <div class="form-group row">  
+            <label class="control-label col-md-12" for="LastName">Last Name</label>  
+            <div class="col-md-4">  
+                <input class="form-control" type="text" formControlName="lastName">  
+            </div>  
+            <span class="text-danger" *ngIf="employeeForm.hasError('required', 'lastName') && formDir.submitted">  
+                Name is required.  
+            </span>
+        </div>
         <div class="form-group row">  
             <label class="control-label col-md-12" for="Gender">Gender</label>  
             <div class="col-md-4">  
-                <select class="form-control">  
+                <select class="form-control" data-val="true" formControlName="genderId">  
                     <option value="">-- Select Gender --</option>  
-                    <option value="Male">Male</option>  
-                    <option value="Female">Female</option>  
+                    <option value="1">Male</option>  
+                    <option value="2">Female</option>  
                 </select>  
-            </div>  
-              
+            </div>
+            <span class="text-danger" *ngIf="employeeForm.hasError('required', 'genderId') && formDir.submitted">  
+                Gender is required  
+            </span>   
         </div>  
         <div class="form-group row">  
             <label class="control-label col-md-12" for="Department">Department</label>  
             <div class="col-md-4">  
-                <input class="form-control" type="text">  
-            </div>  
-            
-        </div>  
+                <select class="form-control" data-val="true" formControlName="departmentId">  
+                    <option value="">-- Select Gender --</option>
+                    <option value="1">Unit1</option> 
+                    <option value="2">Unit2</option>   
+                    <option value="3">Unit3</option> 
+                </select>  
+            </div>
+            <span class="text-danger" *ngIf="employeeForm.hasError('required', 'departmentId') && formDir.submitted">  
+                Department is required  
+            </span>   
+        </div> 
         <div class="form-group row">  
-            <label class="control-label col-md-12" for="City">City</label>  
+            <label class="control-label col-md-12" for="phoneNo">Phone</label>  
             <div class="col-md-4">  
-                <input class="form-control" type="text">  
-            </div>  
+                <input class="form-control" type="text" formControlName="phoneNo">  
+            </div>
+            <span class="text-danger" *ngIf="employeeForm.hasError('required', 'phoneNo') && formDir.submitted">  
+                Name is required.  
+            </span> 
         </div>  
         <div class="form-group">  
             <button type="submit" class="btn btn-default">Save</button>  

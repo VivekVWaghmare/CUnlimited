@@ -24,7 +24,7 @@ export class EmployeeService{
 
     getEmployeeById(id: number) {  
         return this.http.get(this.myAppUrl + "api/Employee/Details/" + id)  
-            .map((response: Response) => response.json())  
+            .map((response: Response) => response.json()) //     console.log(response.json()))  //                 
             .catch(this.errorHandler)  
     } 
     saveEmployee(employee) {  
@@ -34,6 +34,7 @@ export class EmployeeService{
     }  
   
     updateEmployee(employee) {  
+        console.log( employee);
         return this.http.put(this.myAppUrl + 'api/Employee/Edit', employee)  
             .map((response: Response) => response.json())  
             .catch(this.errorHandler);  

@@ -12,7 +12,7 @@ import {  Router, ActivatedRoute } from '@angular/router';
 
 export class AddEmployeeComponent implements OnInit {
     employeeForm: FormGroup;
-    title: string = "Add";
+    title: string = "Create";
     id: number =0;
     errorMessage: any;
     employeeService: EmployeeService;
@@ -27,28 +27,55 @@ export class AddEmployeeComponent implements OnInit {
         }
 
         this.employeeForm = this._fb.group({
-            id: 0,
-            name: ['', [Validators.required]],
-            gender: ['', [Validators.required]],
+            id:0,
+            firstName: ['', [Validators.required]],
+            lastName: ['', [Validators.required]],
+            genderId: ['', [Validators.required]],
+            genderName: ['', [Validators.required]],
+            departmentId: ['', [Validators.required]],
             department: ['', [Validators.required]],
-            city: ['', [Validators.required]]
+            phoneNo: [ , [Validators.required]],
+            city:'',
         })
     }
     ngOnInit() {  
         if (this.id > 0) {  
+            console.log(this.id);
             this.title = "Edit";  
             this.employeeService.getEmployeeById(this.id)  
-                .subscribe(resp => this.employeeForm.setValue(resp)  
+                .subscribe(resp => {this.employeeForm.setValue(resp), console.log(resp)  }
                 , error => this.errorMessage = error);  
         }  
     } 
 
-    cancel(){
+    save() {  
+  
+        if (!this.employeeForm.valid) {  
+            return;  
+        }  
+  
+        if (this.title == "Create") {  
+            this._employeeService.saveEmployee(this.employeeForm.value)  
+                .subscribe((data) => {  
+                    this._router.navigate(['/fetch-data']);  
+                }, error => this.errorMessage = error)  
+        }  
+        else if (this.title == "Edit") {
+            console.log(this.employeeForm.value);  
+            this._employeeService.updateEmployee(this.employeeForm.value)  
+                .subscribe((data) => {  
+                    this._router.navigate(['/fetch-data']);  
+                }, error => this.errorMessage = error)   
+        }  
+    } 
 
+    cancel(){
+        this._router.navigate(['/fetch-data']);  
     }
 
-    get name() { return this.employeeForm.get('name'); }  
-    get gender() { return this.employeeForm.get('gender'); }  
+    get firstName() { return this.employeeForm.get('firstName'); } 
+    get lastName() { return this.employeeForm.get('lastName'); }  
+    get genderName() { return this.employeeForm.get('genderName'); }  
     get department() { return this.employeeForm.get('department'); }  
-    get city() { return this.employeeForm.get('city'); } 
+    //get city() { return this.employeeForm.get('city'); } 
 }

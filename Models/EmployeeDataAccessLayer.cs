@@ -52,7 +52,7 @@ public class EmployeeDataAccessLayer
         }  
   
         //To Add new employee record   
-        public int AddEmployee(Employee employee)  
+        public int AddEmployee(EmployeeDetails employee)  
         {  
             try  
             {  
@@ -61,10 +61,11 @@ public class EmployeeDataAccessLayer
                     SqlCommand cmd = new SqlCommand("spAddEmployee", con);  
                     cmd.CommandType = CommandType.StoredProcedure;  
   
-                    cmd.Parameters.AddWithValue("@Name", employee.Name);  
-                    cmd.Parameters.AddWithValue("@Gender", employee.Gender);  
-                    cmd.Parameters.AddWithValue("@Department", employee.Department);  
-                    cmd.Parameters.AddWithValue("@City", employee.City);  
+                    cmd.Parameters.AddWithValue("@FirstName", employee.FirstName);  
+                    cmd.Parameters.AddWithValue("@LastName", employee.LastName); 
+                    cmd.Parameters.AddWithValue("@Gender", employee.GenderId);  
+                    cmd.Parameters.AddWithValue("@DepartmentId", employee.DepartmentId);  
+                    cmd.Parameters.AddWithValue("@PhoneNo", employee.PhoneNo);  
   
                     con.Open();  
                     cmd.ExecuteNonQuery();  
@@ -79,7 +80,7 @@ public class EmployeeDataAccessLayer
         }  
   
         //To Update the records of a particluar employee  
-        public int UpdateEmployee(Employee employee)  
+        public int UpdateEmployee(EmployeeDetails employee)  
         {  
             try  
             {  
@@ -89,10 +90,11 @@ public class EmployeeDataAccessLayer
                     cmd.CommandType = CommandType.StoredProcedure;  
   
                     cmd.Parameters.AddWithValue("@EmpId", employee.ID);  
-                    cmd.Parameters.AddWithValue("@Name", employee.Name);  
-                    cmd.Parameters.AddWithValue("@Gender", employee.Gender);  
-                    cmd.Parameters.AddWithValue("@Department", employee.Department);  
-                    cmd.Parameters.AddWithValue("@City", employee.City);  
+                    cmd.Parameters.AddWithValue("@FirstName", employee.FirstName); 
+                    cmd.Parameters.AddWithValue("@LastName", employee.LastName);  
+                    cmd.Parameters.AddWithValue("@Gender", employee.GenderId);  
+                    cmd.Parameters.AddWithValue("@DepartmentId", employee.DepartmentId);
+                    cmd.Parameters.AddWithValue("@PhoneNo", employee.PhoneNo);
   
                     con.Open();  
                     cmd.ExecuteNonQuery();  
@@ -107,28 +109,32 @@ public class EmployeeDataAccessLayer
         }  
   
         //Get the details of a particular employee  
-        public Employee GetEmployeeData(int id)  
+        public EmployeeDetails GetEmployeeData(int id)  
         {  
             try  
             {  
-                Employee employee = new Employee();  
+                EmployeeDetails employee = new EmployeeDetails();  
   
                 using (SqlConnection con = new SqlConnection(connectionString))  
                 {  
-                    string sqlQuery = "SELECT * FROM tblEmployee WHERE EmployeeID= " + id;  
-                    SqlCommand cmd = new SqlCommand(sqlQuery, con);  
+                    SqlCommand cmd = new SqlCommand("spGetAllEmployeesbyId", con);  
+                    cmd.CommandType = CommandType.StoredProcedure;  
+                    cmd.Parameters.AddWithValue("@EmpId", id);  
   
                     con.Open();  
-                    SqlDataReader rdr = cmd.ExecuteReader();  
-  
+                    SqlDataReader rdr = cmd.ExecuteReader(); 
                     while (rdr.Read())  
                     {  
                         employee.ID = Convert.ToInt32(rdr["EmployeeID"]);  
-                        employee.Name = rdr["Name"].ToString();  
-                        employee.Gender = rdr["Gender"].ToString();  
-                        employee.Department = rdr["Department"].ToString();  
-                        employee.City = rdr["City"].ToString();  
+                        employee.FirstName = rdr["FirstName"].ToString(); 
+                        employee.LastName = rdr["LastName"].ToString(); 
+                        employee.GenderId = Convert.ToInt32(rdr["GenderId"]);
+                        employee.GenderName = rdr["GenderName"].ToString(); 
+                        employee.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]); 
+                        employee.Department = rdr["DepartmentName"].ToString();  
+                        employee.PhoneNo = Convert.ToDouble(rdr["PhoneNo"]); 
                     }  
+                    con.Close(); 
                 }  
                 return employee;  
             }  
