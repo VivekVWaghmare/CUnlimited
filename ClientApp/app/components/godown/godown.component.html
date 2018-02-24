@@ -1,115 +1,95 @@
 <hr style="height: 1px;color: #123455;background-color: #d55500;border: none;color: #d55500;" />  
 <p *ngIf="!Inventory"><em>Loading Inventory Details please Wait ! ...</em></p>  
-<table id="tblContainer" style='width: 99%;table-layout:fixed;'>  
-    <tr>  
-        <td>  
-            <table style="background-color:#FFFFFF; border: dashed 3px #FFFFFF; padding: 5px;width: 99%;table-layout:fixed;" cellpadding="2"  
-                   cellspacing="2">  
-                <tr style="height: 30px;  color:#123455 ;border: solid 1px #659EC7;">  
-                    <td width="40px"> </td>  
-                    <td width="50%">  
+<div id="tblContainer">  <!-- style='table-layout:fixed;' -->
+    <!-- <div>  
+        <div>   -->
+            <!--<div>    style="background-color:#FFFFFF; border: dashed 3px #FFFFFF; padding: 5px; " -->
+                <div class="row"> <!-- style="height: 30px;  color:#123455 ;border: solid 1px #659EC7;"  -->
+                    <div class="col-md-1"> </div>  
+                    <div class="col-md-7">  
                         <h1> Add New Inventory Information <strong style="color:#0094ff"> </strong></h1>  
   
-                    </td>  
-                    <td align="right">  
+                    </div>  
+                    <div class="col-md-4">  
                         <button (click)=AddInventory() style="background-color:#f83500;color:#FFFFFF;font-size:large;width:260px;height:50px;  
                               border-color:#a2aabe;border-style:dashed;border-width:2px;">  
                             Add New Inventory Info  
                         </button>  
                            
-                    </td>  
-                </tr>  
-            </table>  
+                    </div>  
+                </div>  
+            <!-- </div>   -->
   
-        </td>  
-    </tr>  
-    <tr>  
-        <td>  
+        <!-- </div>
+    </div>    --> 
+    <!-- <tr>  
+        <td>   -->
             <hr style="height: 1px;color: #123455;background-color: #d55500;border: none;color: #d55500;" />  
-        </td>  
-    </tr>  
-    <tr *ngIf="AddTable">  
-        <td >  
-            <table>  
-                <tr>  
-                    <td>  
-                        <table style="background-color:#FFFFFF; border: dashed 3px #6D7B8D; padding :5px;width :99%;table-layout:fixed;" cellpadding="2" cellspacing="2">  
-                            <tr style="height: 30px; background-color:#336699 ; color:#FFFFFF ;border: solid 1px #659EC7;">  
-                                <td width="40">  
+        <!-- </td>  
+    </tr>   -->
+    <div *ngIf="AddTable"  class="row" >  
+                    <div class="row" style="background-color:#FFFFFF; border: dashed 3px #6D7B8D; padding :5px;width :99%"  >  
+                            <div style="height: 72px; background-color:#336699 ; color:#FFFFFF ;border: solid 1px #659EC7;">  
+                                <div class="col-md-2">  
                                        
-                                </td>  
-                                <td>  
+                                </div>  
+                                <div class="col-md-10">  
                                     <h2>Insert/Edit Inventory Details : </h2>  
-                                </td>  
-                            </tr>  
-                            <tr>  
-                                <td width="100">  
-                                       
-                                </td>  
-                                <td>  
-                                    <table style="color:#9F000F;font-size:large; padding :5px;" cellpadding="12" cellspacing="16">  
-                                        <tr>  
-                                            <td><b>Inventory ID: </b> </td>  
-                                            <td>  
+                                </div>  
+                            </div>  
+                            <div>   
+                                <!-- <td colspan="2">   -->
+                                    <div style="color:#9F000F;font-size:large; padding :5px;" >  
+                                        <div class="row">  
+                                            <div class="col-md-3 col-sm-12 col-xs-12"><label class="col-md-3 col-sm-12 col-xs-12">Inventory ID: </label> </div>  
+                                            <div class="col-md-3 col-sm-12 col-xs-12">  
                                                 <input type="number" #InventoryID (ngModel)="sInventoryID" value="{{sInventoryID}}" style="background-color:tan" readonly>  
-                                            </td>  
-                                            <td width="20"> </td>  
-                                            <td><b>Item Name: </b> </td>  
-                                            <td>  
+                                            </div>  
+                                            <!-- <td width="20"> </td>   -->
+                                            <div class="col-md-3 col-sm-12 col-xs-12"><b>Item Name: </b> </div>  
+                                            <div class="col-md-3 col-sm-12 col-xs-12">  
                                                 <input type="text" #ItemName (ngModel)="sItemName" value="{{sItemName}}" required>  
-                                            </td>  
-                                            <td></td>  
-                                        </tr>  
-                                        <tr>  
-                                            <td><b>Stock Quantity: </b> </td>  
-                                            <td>  
+                                            </div>  
+                                        </div>  
+                                        <div class="row">  
+                                            <div class="col-md-3 col-sm-12 col-xs-12"><b>Stock Quantity: </b> </div>  
+                                            <div class="col-md-3 col-sm-12 col-xs-12">  
                                                 <input type="number" #StockQty (ngModel)="sStockQty" value="{{sStockQty}}" min="50" required>  
-                                            </td>  
-                                            <td width="20"> </td>  
-                                            <td><b>Reorder Quantity: </b> </td>  
-                                            <td>  
+                                            </div> 
+                                            <div class="col-md-3 col-sm-12 col-xs-12"><b>Reorder Quantity: </b> </div>  
+                                            <div class="col-md-3 col-sm-12 col-xs-12">  
                                                 <input type="number" #ReorderQty (ngModel)="sReorderQty" value="{{sReorderQty}}" min="50" required>  
-                                            </td>  
-                                            <td></td>  
-                                        </tr>  
-                                        <tr>  
-                                            <td><b>Priority Status: </b> </td>  
-                                            <td>  
+                                            </div>  
+                                        </div>  
+                                        <div class="row">  
+                                            <div class="col-md-3"><b>Priority Status: </b> </div>  
+                                            <div class="col-md-3">  
                                                 <input type="checkbox" #PriorityStatus (ngModel)="sPriorityStatus" value="{{sPriorityStatus}}" [checked]="sPriorityStatus"  
                                                        (change)="sPriorityStatus = !sPriorityStatus" >  
                                                 <!--<input type="text" #chkName (ngModel)="schkName" value="{{schkName}}">-->  
-                                            </td>  
-                                            <td width="20"> </td>  
-                                            <td align="right" colspan="2">  
+                                            </div> 
+                                        </div>
+                                        <div class="row"> 
+                                            <div class="col-md-12">  
                                                 <button (click)=addInventoryDetails(InventoryID.value,ItemName.value,StockQty.value,ReorderQty.value,PriorityStatus.value) style="background-color:#428d28;color:#FFFFFF;font-size:large;width:220px;  
                               border-color:#a2aabe;border-style:dashed;border-width:2px;">  
                                                     Save  
-                                                </button>  
-                                            </td>  
-                                            <td>  
+                                                </button>
                                                      
                                                 <button (click)=closeEdits() style="background-color:#334668;color:#FFFFFF;font-size:large;width:180px;  
                               border-color:#a2aabe;border-style:dashed;border-width:2px;">  
                                                     Close  
                                                 </button>  
-                                            </td>  
-                                        </tr>  
-                                    </table>  
-                                </td>  
-                            </tr>  
-                        </table>  
-                    </td>  
-                </tr>  
-                <tr>  
-                    <td colspan="2">  
-                        <hr style="height: 1px;color: #123455;background-color: #d55500;border: none;color: #d55500;" />  
-                    </td>  
-                </tr>  
-            </table>  
-        </td>  
-    </tr>  
-    <tr>  
-        <td>  
+                                            </div>  
+                                        </div>  
+                                    </div>  
+                                <!-- </td>   -->
+                            </div>  
+                    </div>  
+                    <hr style="height: 1px;color: #123455;background-color: #d55500;border: none;color: #d55500;" />          
+    </div>  
+    <div>  
+        <!-- <div>   -->
   
             <table class='table' style="background-color:#FFFFFF; border:2px #6D7B8D; padding:5px;width:99%;table-layout:fixed;" cellpadding="2" cellspacing="2" *ngIf="Inventory">  
                 <tr style="height: 30px; background-color:#336699 ; color:#FFFFFF ;border: solid 1px #659EC7;">  
@@ -174,6 +154,6 @@
                     </tr>  
                 </tbody>  
             </table>  
-        </td>  
-    </tr>  
-</table> 
+        <!-- </div>   -->
+    </div>  
+</div> 
