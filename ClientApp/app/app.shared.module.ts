@@ -16,6 +16,7 @@ import { EmpTodayAttendanceComponent } from './components/employeeAttendance/emp
 import { GodownComponent } from './components/godown/godown.component';
 import { StockService } from './common/services/stock.service';
 import { SalaryComponent } from './components/salary/salary.component';
+import { DepartmentService } from './common/services/department.service';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,7 @@ import { SalaryComponent } from './components/salary/salary.component';
             { path: '**', redirectTo: 'home' }
         ])
     ],
-    providers: [EmployeeService, StockService]
+    providers: [EmployeeService, StockService, DepartmentService]
 })
 export class AppModuleShared {
 }

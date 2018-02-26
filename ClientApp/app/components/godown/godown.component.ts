@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';  
 import { StockService } from '../../common/services/stock.service';
+import { DepartmentService } from '../../common/services/department.service';
 
 @Component({
     selector: 'godown',
@@ -13,28 +14,39 @@ import { StockService } from '../../common/services/stock.service';
 export class GodownComponent implements OnInit {
     
     public Inventory: InventoryMaster [] = [];  
+    public item = <InventoryMaster> {
+        inventoryID: 0,  
+        itemName: "",
+        departmentId:0
+    };
+    public department: Department [] =[];
     // to hide and Show Insert/Edit   
     AddTable: Boolean = false;  
     // To stored Informations for insert/Update and Delete  
     public sInventoryID : number = 0;  
     public sItemName = "";  
     public sStockQty : number  = 0;  
-    public sReorderQty : number = 0;  
+    public sReorderQty : number = 0; 
+    public soutQuantity : number = 0; 
     public sPriorityStatus: boolean = false;  
     public bseUrl: string = "";  
       
     public schkName: string = "";  
     myName: string = "";  
 
-    constructor(private http: Http, private _router: Router, private _stockService: StockService, @Inject('BASE_URL')base_url: string)
+    constructor(private http: Http, private _router: Router, private _stockService: StockService,
+        private _departmentService: DepartmentService, @Inject('BASE_URL')base_url: string)
     {
-        this.myName = "Shanu";  
+        this.myName = "Vivek";  
         this.AddTable = false;  
         this.bseUrl = base_url; 
     }
 
     ngOnInit(): void {
         //throw new Error("Method not implemented.");
+        this._departmentService.getDepartment().subscribe(
+            data => this.department= data  
+        ) 
         this._stockService.getStock().subscribe(
             data => this.Inventory= data  
         ) 
@@ -52,17 +64,26 @@ export class GodownComponent implements OnInit {
         this.sInventoryID = 0;  
         this.sItemName = "";  
         this.sStockQty = 50;  
-        this.sReorderQty = 50;  
+        this.sReorderQty = 50;
+        this.soutQuantity=0;  
         this.sPriorityStatus = false;  
     }  
 
     // to show form for edit Inventory Information  
-    editInventoryDetails(inventoryIDs : number, itemNames : string, stockQtys : number, reorderQtys : number , priorityStatus : number) {   
+    editInventoryDetails(INVY : InventoryMaster)
+    {
+        this.AddTable = true;  
+        console.log(INVY);
+        this.item = INVY;
+        console.log(this.item);
+    }
+    editInventoryDetails1(inventoryIDs : number, itemNames : string, stockQtys : number, reorderQtys : number , outQtys : number ,  priorityStatus : number) {   
         this.AddTable = true;  
         this.sInventoryID = inventoryIDs;  
         this.sItemName = itemNames;  
         this.sStockQty = stockQtys;  
-        this.sReorderQty = reorderQtys;  
+        this.sReorderQty = reorderQtys; 
+        this.soutQuantity = outQtys; 
         if (priorityStatus == 0)  
         {  
             this.sPriorityStatus = false;  
@@ -74,7 +95,7 @@ export class GodownComponent implements OnInit {
     }  
 
     // If the InventoryId is 0 then insert the Inventory infromation using post and if the Inventory id is greater than 0 then edit using put mehod  
-    addInventoryDetails(inventoryIDs: number, itemNames: string, stockQtys: number, reorderQtys: number, priorityStatus: boolean) {  
+    addInventoryDetails1(inventoryIDs: number, itemNames: string, stockQtys: number, reorderQtys: number, priorityStatus: boolean) {  
         var pStatus: number = 0;  
           
         this.schkName = priorityStatus.toString();  
@@ -111,6 +132,18 @@ export class GodownComponent implements OnInit {
         //    this.Inventory = result.json();  
         //}, error => console.error(error));   
     }
+    addInventoryDetails(item  : InventoryMaster){
+        if(item.inventoryID ==0){ // call add stock
+            this._stockService.addStock(item)
+            .subscribe((data) => {  
+                this.getData(); 
+            }) 
+        }
+        else {  // call update stock
+
+        }
+        this.AddTable = false; 
+    }
 
      //to Delete the selected Inventory detail from database.  
      deleteinventoryDetails(inventoryIDs: number) {  
@@ -130,12 +163,17 @@ export class GodownComponent implements OnInit {
   
     closeEdits() {  
         this.AddTable = false;  
-        // To stored Student Informations for insert/Update and Delete  
-        this.sInventoryID = 0;  
-        this.sItemName = "";  
-        this.sStockQty = 50;  
-        this.sReorderQty = 50;  
-        this.sPriorityStatus = false;  
+        this.item = {
+            inventoryID : 0,
+            itemName: "",
+            stockQty: 0,
+            departmentId:0,
+            departmentName:"",
+            inQuantity:0,
+            outQuantity:0,
+            priorityStatus:0,
+            reorderQty:0
+        } 
     } 
 
 }
@@ -143,7 +181,15 @@ export class GodownComponent implements OnInit {
 export interface InventoryMaster {  
     inventoryID: number;  
     itemName: string;  
-    stockQty: number;  
+    stockQty: number; 
+    inQuantity: number;
+    outQuantity: number; 
     reorderQty: number;  
-    priorityStatus: number;  
+    priorityStatus: number;
+    departmentId: number;
+    departmentName: string; 
 } 
+export interface Department{
+Id : number;
+departmentName: string;
+}

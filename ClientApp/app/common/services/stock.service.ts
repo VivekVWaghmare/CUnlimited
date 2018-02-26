@@ -21,6 +21,12 @@ export class StockService
         .catch(this.errorHandler)
     }
 
+    addStock(item) {  
+        return this.http.post(this.myAppUrl + 'api/InventoryAPI/AddInventory', item)  
+            .map((response: Response) => response.json())  
+            .catch(this.errorHandler)  
+    } 
+
     errorHandler(error : Response){
         console.log(error);
         return Observable.throw(error);

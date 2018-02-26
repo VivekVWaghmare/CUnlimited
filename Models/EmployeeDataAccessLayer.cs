@@ -176,7 +176,7 @@ public class EmployeeDataAccessLayer
   
                 using (SqlConnection con = new SqlConnection(connectionString))  
                 {  
-                    SqlCommand cmd = new SqlCommand("spGetAllEmployees", con);  
+                    SqlCommand cmd = new SqlCommand("spGetAllStock", con);  
                     cmd.CommandType = CommandType.StoredProcedure;  
   
                     con.Open();  
@@ -186,11 +186,15 @@ public class EmployeeDataAccessLayer
                     {  
                         InventoryMaster inventory = new InventoryMaster();  
   
-                        inventory.InventoryID = Convert.ToInt32(rdr["InventoryID"]);  
+                        inventory.InventoryID = Convert.ToInt32(rdr["Id"]);  
                         inventory.ItemName = rdr["Name"].ToString();  
                         inventory.StockQty = Convert.ToInt32(rdr["Quantity"]);  
-                        inventory.ReorderQty = Convert.ToInt32(rdr["ReorderQty"]);  
-                        inventory.PriorityStatus = Convert.ToInt32(rdr["PriorityStatus"]);
+                        inventory.InQuantity = Convert.ToDouble(rdr["InQuantity"]); 
+                        inventory.OutQuantity = Convert.ToDouble(rdr["OutQuantity"]); 
+                        inventory.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
+                        inventory.DepartmentName = rdr["DepartmentName"].ToString(); 
+                        //inventory.ReorderQty = Convert.ToInt32(rdr["ReorderQty"]);  
+                        //inventory.PriorityStatus = Convert.ToInt32(rdr["PriorityStatus"]);
   
                         lstInventory.Add(inventory);  
                     }  
@@ -210,13 +214,17 @@ public class EmployeeDataAccessLayer
             {  
                 using (SqlConnection con = new SqlConnection(connectionString))  
                 {  
-                    SqlCommand cmd = new SqlCommand("spAddEmployee", con);  
+                    SqlCommand cmd = new SqlCommand("spAddStock", con);  
                     cmd.CommandType = CommandType.StoredProcedure;  
   
                     cmd.Parameters.AddWithValue("@Name", item.ItemName);  
-                    cmd.Parameters.AddWithValue("@Quantity", item.StockQty);  
-                    cmd.Parameters.AddWithValue("@ReorderQty", item.ReorderQty);  
-                    cmd.Parameters.AddWithValue("@PriorityStatus", item.PriorityStatus);  
+                    cmd.Parameters.AddWithValue("@Quantity", item.StockQty);
+                    cmd.Parameters.AddWithValue("@InQuantity", item.InQuantity);
+                    cmd.Parameters.AddWithValue("@OutQuantity", item.OutQuantity);
+                    cmd.Parameters.AddWithValue("@DepartmentId", item.DepartmentId);
+                    cmd.Parameters.AddWithValue("@UserId", 1);
+                    // cmd.Parameters.AddWithValue("@ReorderQty", item.ReorderQty);  
+                    // cmd.Parameters.AddWithValue("@PriorityStatus", item.PriorityStatus);  
   
                     con.Open();  
                     cmd.ExecuteNonQuery();  
@@ -241,9 +249,12 @@ public class EmployeeDataAccessLayer
   
                     cmd.Parameters.AddWithValue("@InventoryID", item.InventoryID);  
                     cmd.Parameters.AddWithValue("@Name", item.ItemName);  
-                    cmd.Parameters.AddWithValue("@Quantity", item.StockQty);  
-                    cmd.Parameters.AddWithValue("@ReorderQty", item.ReorderQty);  
-                    cmd.Parameters.AddWithValue("@PriorityStatus", item.PriorityStatus);  
+                    cmd.Parameters.AddWithValue("@Quantity", item.StockQty);
+                    cmd.Parameters.AddWithValue("@InQuantity", item.InQuantity);
+                    cmd.Parameters.AddWithValue("@OutQuantity", item.OutQuantity);
+                    cmd.Parameters.AddWithValue("@DepartmentId", item.DepartmentId); 
+                    // cmd.Parameters.AddWithValue("@ReorderQty", item.ReorderQty);  
+                    // cmd.Parameters.AddWithValue("@PriorityStatus", item.PriorityStatus);  
   
                     con.Open();  
                     cmd.ExecuteNonQuery();  
@@ -275,9 +286,13 @@ public class EmployeeDataAccessLayer
                     {  
                         item.InventoryID = Convert.ToInt32(rdr["InventoryID"]);  
                         item.ItemName = rdr["Name"].ToString();  
-                        item.StockQty = Convert.ToInt32(rdr["Quantity"]);  
-                        item.ReorderQty = Convert.ToInt32(rdr["ReorderQty"]);  
-                        item.PriorityStatus = Convert.ToInt32(rdr["PriorityStatus"]);  
+                        item.StockQty = Convert.ToInt32(rdr["Quantity"]);
+                        item.InQuantity = Convert.ToDouble(rdr["InQuantity"]); 
+                        item.OutQuantity = Convert.ToDouble(rdr["OutQuantity"]); 
+                        item.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
+                        item.DepartmentName = rdr["DepartmentName"].ToString();   
+                        // item.ReorderQty = Convert.ToInt32(rdr["ReorderQty"]);  
+                        // item.PriorityStatus = Convert.ToInt32(rdr["PriorityStatus"]);  
                     }  
                 }  
                 return item;  
@@ -304,6 +319,39 @@ public class EmployeeDataAccessLayer
                     con.Close();  
                 }  
                 return 1;  
+            }  
+            catch  
+            {  
+                throw;  
+            }  
+        }
+
+         public IEnumerable<Department> GetAllDepartment()  
+        {  
+            try  
+            {  
+                List<Department> lstDepartment = new List<Department>();  
+  
+                using (SqlConnection con = new SqlConnection(connectionString))  
+                {  
+                    SqlCommand cmd = new SqlCommand("spGetDepartment", con);  
+                    cmd.CommandType = CommandType.StoredProcedure;  
+  
+                    con.Open();  
+                    SqlDataReader rdr = cmd.ExecuteReader();  
+  
+                    while (rdr.Read())  
+                    {  
+                        Department department = new Department();  
+  
+                        department.Id = Convert.ToInt32(rdr["Id"]);  
+                        department.DepartmentName = rdr["DepartmentName"].ToString();  
+  
+                        lstDepartment.Add(department);  
+                    }  
+                    con.Close();  
+                }  
+                return lstDepartment;  
             }  
             catch  
             {  
