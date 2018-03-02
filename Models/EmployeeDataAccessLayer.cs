@@ -244,7 +244,7 @@ public class EmployeeDataAccessLayer
             {  
                 using (SqlConnection con = new SqlConnection(connectionString))  
                 {  
-                    SqlCommand cmd = new SqlCommand("spUpdateEmployee", con);  
+                    SqlCommand cmd = new SqlCommand("spUpdateStock", con);  
                     cmd.CommandType = CommandType.StoredProcedure;  
   
                     cmd.Parameters.AddWithValue("@InventoryID", item.InventoryID);  
@@ -253,6 +253,7 @@ public class EmployeeDataAccessLayer
                     cmd.Parameters.AddWithValue("@InQuantity", item.InQuantity);
                     cmd.Parameters.AddWithValue("@OutQuantity", item.OutQuantity);
                     cmd.Parameters.AddWithValue("@DepartmentId", item.DepartmentId); 
+                    cmd.Parameters.AddWithValue("@UserId", 1); 
                     // cmd.Parameters.AddWithValue("@ReorderQty", item.ReorderQty);  
                     // cmd.Parameters.AddWithValue("@PriorityStatus", item.PriorityStatus);  
   
@@ -309,7 +310,7 @@ public class EmployeeDataAccessLayer
             {  
                 using (SqlConnection con = new SqlConnection(connectionString))  
                 {  
-                    SqlCommand cmd = new SqlCommand("spDeleteEmployee", con);  
+                    SqlCommand cmd = new SqlCommand("spDeleteStock", con);  
                     cmd.CommandType = CommandType.StoredProcedure;  
   
                     cmd.Parameters.AddWithValue("@InventoryID", id);  

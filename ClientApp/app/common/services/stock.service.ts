@@ -27,6 +27,19 @@ export class StockService
             .catch(this.errorHandler)  
     } 
 
+    updateStock(item) {  
+        console.log(item);
+        return this.http.put(this.myAppUrl + 'api/InventoryAPI/Edit', item)  
+            .map((response: Response) => response.json())  
+            .catch(this.errorHandler);  
+    } 
+
+    deleteStock(id) {  
+        return this.http.delete(this.myAppUrl + "api/InventoryAPI/Delete/" + id)  
+            .map((response: Response) => response.json())  
+            .catch(this.errorHandler);  
+    }
+    
     errorHandler(error : Response){
         console.log(error);
         return Observable.throw(error);

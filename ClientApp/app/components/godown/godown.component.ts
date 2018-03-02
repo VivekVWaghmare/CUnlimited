@@ -75,6 +75,8 @@ export class GodownComponent implements OnInit {
         this.AddTable = true;  
         console.log(INVY);
         this.item = INVY;
+        this.item.inQuantity =0;
+        this.item.outQuantity =0;
         console.log(this.item);
     }
     editInventoryDetails1(inventoryIDs : number, itemNames : string, stockQtys : number, reorderQtys : number , outQtys : number ,  priorityStatus : number) {   
@@ -140,6 +142,11 @@ export class GodownComponent implements OnInit {
             }) 
         }
         else {  // call update stock
+            this._stockService.updateStock(item)
+            .subscribe((data) =>{
+                // to get updated data
+                this.getData();
+            })
 
         }
         this.AddTable = false; 
@@ -147,18 +154,12 @@ export class GodownComponent implements OnInit {
 
      //to Delete the selected Inventory detail from database.  
      deleteinventoryDetails(inventoryIDs: number) {  
-        var headers = new Headers();  
-        headers.append('Content-Type', 'application/json; charset=utf-8');  
-        // this.http.delete(this.bseUrl + 'api/InventoryMasterAPI/' + inventoryIDs, { headers: headers }).subscribe(response => {  
-        //     this.getData();  
-  
-        // }, error => {  
-        // }  
-        // );   
-  
-        //this.http.get(this.bseUrl + 'api/InventoryMasterAPI/Inventory').subscribe(result => {  
-        //    this.Inventory = result.json();  
-        //}, error => console.error(error));   
+        var ans = confirm("Do you want to delete customer with Id: " + inventoryIDs);  
+        if (ans) {  
+            this._stockService.deleteStock(inventoryIDs).subscribe((data) => {  
+                this.getData();  
+            }, error => console.error(error))   
+        } 
     }  
   
     closeEdits() {  
