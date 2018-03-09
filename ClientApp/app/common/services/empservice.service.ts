@@ -34,7 +34,7 @@ export class EmployeeService{
     }  
   
     updateEmployee(employee) {  
-        console.log( employee);
+        //console.log( employee);
         return this.http.put(this.myAppUrl + 'api/Employee/Edit', employee)  
             .map((response: Response) => response.json())  
             .catch(this.errorHandler);  

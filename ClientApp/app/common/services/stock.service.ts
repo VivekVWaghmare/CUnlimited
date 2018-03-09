@@ -27,8 +27,7 @@ export class StockService
             .catch(this.errorHandler)  
     } 
 
-    updateStock(item) {  
-        console.log(item);
+    updateStock(item) { 
         return this.http.put(this.myAppUrl + 'api/InventoryAPI/Edit', item)  
             .map((response: Response) => response.json())  
             .catch(this.errorHandler);  

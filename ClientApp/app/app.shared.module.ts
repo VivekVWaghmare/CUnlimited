@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { EmployeeService } from './common/services/empservice.service';
 
 
@@ -17,6 +18,7 @@ import { GodownComponent } from './components/godown/godown.component';
 import { StockService } from './common/services/stock.service';
 import { SalaryComponent } from './components/salary/salary.component';
 import { DepartmentService } from './common/services/department.service';
+import { AttendanceService } from './common/services/attendanceService';
 
 @NgModule({
     declarations: [
@@ -32,6 +34,7 @@ import { DepartmentService } from './common/services/department.service';
     ],
     imports: [
         CommonModule,
+        NgxPaginationModule,
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
@@ -48,7 +51,7 @@ import { DepartmentService } from './common/services/department.service';
             { path: '**', redirectTo: 'home' }
         ])
     ],
-    providers: [EmployeeService, StockService, DepartmentService]
+    providers: [EmployeeService, StockService, DepartmentService, AttendanceService]
 })
 export class AppModuleShared {
 }

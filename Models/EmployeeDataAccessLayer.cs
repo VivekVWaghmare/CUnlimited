@@ -359,5 +359,33 @@ public class EmployeeDataAccessLayer
                 throw;  
             }  
         }
+
+        public int UpdateAttendance(Attendance item)  
+        {  
+            try  
+            {  
+                using (SqlConnection con = new SqlConnection(connectionString))  
+                {  
+                    SqlCommand cmd = new SqlCommand("spUpdateAttendanceForDay", con);  
+                    cmd.CommandType = CommandType.StoredProcedure;  
+  
+                    cmd.Parameters.AddWithValue("@EmployeeId", item.ID);  
+                    cmd.Parameters.AddWithValue("@Present", item.Present);
+                    cmd.Parameters.AddWithValue("@ExtraHour", item.ExtraWorkHr);  
+                    //cmd.Parameters.AddWithValue("@Quantity", item.AttendDate); 
+                    // cmd.Parameters.AddWithValue("@ReorderQty", item.ReorderQty);  
+                    // cmd.Parameters.AddWithValue("@PriorityStatus", item.PriorityStatus);  
+  
+                    con.Open();  
+                    cmd.ExecuteNonQuery();  
+                    con.Close();  
+                }  
+                return 1;  
+            }  
+            catch  
+            {  
+                throw;  
+            }  
+        } 
     } 
 }
